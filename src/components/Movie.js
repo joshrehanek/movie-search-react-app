@@ -1,8 +1,11 @@
 import React from 'react';
 
-const Movie = () => 
+const imageCall = 'https://image.tmdb.org/t/p/w500';
+
+
+const Movie = ({ title, poster_path, overview, vote_average }) => 
     <div className='movie'>
-    Movie Component
+    <img src={imageCall + poster_path} alt={title} />
     </div>
 
 export default Movie;
