@@ -15,7 +15,7 @@ function App() {
 
   useEffect(() => {
     fetch(basicCall)
-    .then(res => res.json())
+      .then(res => res.json())
       .then((data) => {
         console.log(data);
         setMovies(data.results);
@@ -23,11 +23,16 @@ function App() {
   }, [])
 
   return (
-    <div className="movie-container">
-      {movies.length > 0 && movies.map((movie) => 
-        <Movie key={movie.id} {...movie}/>
-      )}
-    </div>
+    <>
+      <header>
+        <input className="search" type="search" placeholder="Search..." />
+      </header>
+      <div className="movie-container">
+        {movies.length > 0 && movies.map((movie) =>
+          <Movie key={movie.id} {...movie} />
+        )}
+      </div>
+    </>
   )
 }
 
