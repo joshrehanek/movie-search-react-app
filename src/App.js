@@ -7,25 +7,49 @@ const apiKey = process.env.REACT_APP_API_KEY;
 
 const basicCall = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1`
 
-const apiSearch = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=Alien`
+const apiSearch = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=`
 
 
 function App() {
   const [movies, setMovies] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     fetch(basicCall)
       .then(res => res.json())
       .then((data) => {
-        console.log(data);
         setMovies(data.results);
       });
   }, [])
 
+  const handleOnSubmit = (e) => {
+    e.preventDefault();
+
+    fetch(apiSearch + searchTerm)
+      .then(res => res.json())
+      .then((data) => {
+        console.log(data)
+        setMovies(data.results);
+      });
+
+  };
+
+  const handleOnChange = (e) => {
+    setSearchTerm(e.target.value);
+  }
+
   return (
     <>
       <header>
-        <input className="search" type="search" placeholder="Search..." />
+        <form onSubmit={handleOnSubmit}>
+          <input
+            className="search"
+            type="search"
+            placeholder="Search..."
+            value={searchTerm}
+            onChange={handleOnChange}
+          />
+        </form>
       </header>
       <div className="movie-container">
         {movies.length > 0 && movies.map((movie) =>
